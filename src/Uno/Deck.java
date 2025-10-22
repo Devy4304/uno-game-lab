@@ -44,15 +44,12 @@ public class Deck {
     }
 
     /**
-     * Generates a new deck of Uno cards with the standard distribution of cards.
-     * This includes numbered cards (0-9), special action cards (Draw Two, Skip, Reverse),
-     * and wild cards (Wild, Wild Draw 4) for each applicable color.
-     * <p>
-     * Each deck contains one 0 card for each color, two copies of each numbered card
-     * (1-9) for each color, two copies of each Draw Two, Skip, and Reverse card for
-     * each color, and single instances of Wild and Wild Draw 4 cards.
+     * Generates a complete deck of Uno cards.
+     * The deck consists of cards in all four colors (RED, YELLOW, GREEN, BLUE),
+     * including numbered cards (0-9), special action cards (Draw Two, Reverse, Skip),
+     * and one instance of cards with special functions (Wild, Wild Draw 4).
      *
-     * @return a list of cards representing a complete Uno deck.
+     * @return a list containing all the cards in a standard Uno deck.
      */
     private static List<Card> generateDeck() {
         // A Uno deck has 108 cards
