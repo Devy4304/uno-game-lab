@@ -44,6 +44,17 @@ public class Card {
     }
 
     /**
+     * Compares two Card objects for equality based on their card number and card color.
+     *
+     * @param card the first Card object to be compared
+     * @param otherCard the second Card object to be compared
+     * @return true if both Card objects have the same card number and card color, otherwise false
+     */
+    public static boolean equals(Card card, Card otherCard) {
+        return (card.cardNum == otherCard.cardNum && card.cardColor == otherCard.cardColor);
+    }
+
+    /**
      * Retrieves the color of the card.
      * The color is represented as a value from the Colors enum,
      * which includes RED, YELLOW, GREEN, and BLUE.
@@ -91,6 +102,7 @@ public class Card {
             return "invalid";
         }
     }
+
 
     /**
      * Returns a string representation of the card, including its color and proper name.
