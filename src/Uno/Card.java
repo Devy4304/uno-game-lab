@@ -44,17 +44,6 @@ public class Card {
     }
 
     /**
-     * Compares two Card objects for equality based on their card number and card color.
-     *
-     * @param card the first Card object to be compared
-     * @param otherCard the second Card object to be compared
-     * @return true if both Card objects have the same card number and card color, otherwise false
-     */
-    public static boolean equals(Card card, Card otherCard) {
-        return (card.cardNum == otherCard.cardNum && card.cardColor == otherCard.cardColor);
-    }
-
-    /**
      * Retrieves the color of the card.
      * The color is represented as a value from the Colors enum,
      * which includes RED, YELLOW, GREEN, and BLUE.
@@ -103,6 +92,54 @@ public class Card {
         }
     }
 
+    /**
+     * Constructs a text representation of the card, including its color and proper name.
+     * The color is derived from the card's color using the color code provided by the `getColorCode` method.
+     * The proper name of the card is determined by the `getProperName` method.
+     * The resulting string combines the color code, the name of the card, and a reset code to terminate formatting.
+     *
+     * @return a string containing the color-coded name of the card.
+     */
+    public String getColoredCardText() {
+        return getColorCode(cardColor) + getProperName() + Utility.RESET;
+    }
+
+    /**
+     * Returns the color code string associated with the specified color from the Colors enum.
+     * If the provided color does not match any defined case, a reset color code is returned.
+     *
+     * @param color the color from the Colors enum for which the color code is requested
+     * @return the corresponding ANSI color code string for the specified color
+     */
+    public static String getColorCode(Colors color) {
+        switch (color) {
+            case Colors.RED -> {
+                return Utility.RED;
+            }
+            case Colors.YELLOW -> {
+                return Utility.YELLOW;
+            }
+            case Colors.GREEN -> {
+                return Utility.GREEN;
+            }
+            case Colors.BLUE -> {
+                return Utility.BLUE;
+            }default -> {
+                return Utility.RESET;
+            }
+        }
+    }
+
+    /**
+     * Determines if the current card can be played on top of another card.
+     * A card is playable if it has the same number or the same color as the provided card.
+     *
+     * @param otherCard the card to compare against for playability
+     * @return true if the current card can be played on the provided card; otherwise, false
+     */
+    public boolean canPlayCard(Card otherCard) {
+        return (cardNum == otherCard.cardNum || cardColor == otherCard.cardColor);
+    }
 
     /**
      * Returns a string representation of the card, including its color and proper name.

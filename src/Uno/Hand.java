@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Hand {
-    private List<Card> hand = new ArrayList<Card>();
+    private List<Card> hand = new ArrayList<>();
 
     public Hand(Deck deck) {
         for (int i = 0; i < 7; i++) {
@@ -20,6 +20,10 @@ public class Hand {
 
     public List<Card> getHand() {
         return hand;
+    }
+
+    public int numCardsInHand() {
+        return hand.size();
     }
 
     public Card getCardFromHand(int index, boolean removeAfterGet) {
