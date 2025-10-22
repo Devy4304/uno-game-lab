@@ -13,9 +13,23 @@ public class Deck {
     One Wild Draw 4 card for each color.
      */
     private List<Card> deck;
+    private boolean isDiscardPile = false;
 
-    public Deck() {
-        this.deck = shuffleDeck(generateDeck());
+    /**
+     * Constructs a new instance of the Deck class.
+     * If the deck is not a discard pile, it initializes a standard shuffled deck of cards.
+     * Otherwise, it marks the deck as a discard pile.
+     *
+     * @param isDiscardPile a boolean value indicating whether the deck should be a discard pile.
+     *                      If true, initializes the deck as a discard pile; otherwise, generates
+     *                      and shuffles a full deck of cards.
+     */
+    public Deck(boolean isDiscardPile) {
+        if (!isDiscardPile) {
+            this.deck = shuffleDeck(generateDeck());
+        } else {
+            this.isDiscardPile = true;
+        }
     }
 
     /**
@@ -62,12 +76,34 @@ public class Deck {
     }
 
     /**
+     * Adds a specified card to the discard pile if the deck represents a discard pile.
+     *
+     * @param card the card to be added to the discard pile
+     */
+    public void addCardToDiscardPile(Card card) {
+        if (isDiscardPile) deck.addFirst(card);
+    }
+
+    /**
      * Retrieves the top card of the deck. Optionally removes it from the deck.
      *
      * @param removeAfterGet if true, the top card will be removed from the deck after being retrieved.
      * @return the top card of the deck.
      */
     public Card getTopCard(boolean removeAfterGet) {
+        Card card;
+        try {
+            card = getCard(removeAfterGet);
+        } catch (Exception _) {
+            // If the deck is empty, refill.
+            resetDeck();
+            card = getCard(removeAfterGet);
+        }
+        return card;
+    }
+
+    // This is so I don't have the same code twice
+    private Card getCard(boolean removeAfterGet) {
         // Get the top card
         Card card = deck.getFirst();
         // Remove it if wanted
