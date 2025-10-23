@@ -145,7 +145,11 @@ public class Utility {
 
 
         private static String repeatString(String string, int numberOfRepeats) {
-            return string.repeat(numberOfRepeats);
+            if (numberOfRepeats > 0) {
+                return string.repeat(numberOfRepeats);
+            } else {
+                return "";
+            }
         }
     }
 }

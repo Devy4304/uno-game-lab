@@ -2,13 +2,13 @@ package Uno;
 
 public class Main {
     public static void main(String[] args) {
-        Deck deck = new Deck(false);
-        Hand hand = new Hand(deck);
-
-        System.out.println("Test");
-        Utility.Console.clear();
-        Utility.Console.writeTUIBox(Utility.Console.Colors.YELLOW + "UNO" + Utility.Console.Colors.RESET + " the game!", 30, true, false);
-        Utility.Console.writeTUIBox(hand.toString(), 30, false, true);
-        Utility.Console.writeTUIBox(Utility.Console.Colors.PURPLE + "This is a test TUI box", 30, false, false);
+        Game game = new Game(3);
+        for (int i = 0; i < Game.players.length; i++) {
+            Utility.Console.writeTUIBox("Current Card: " + Game.discardPile.getTopCard(false) +
+                    ";Current Player: " + Game.players[i].username +
+                    ";" + Game.players[i].hand.toString(),
+                    30, (i != 0), (i != 3)
+            );
+        }
     }
 }

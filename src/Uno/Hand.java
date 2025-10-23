@@ -4,30 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Hand {
-    private List<Card> hand = new ArrayList<>();
+    private final List<Card> hand = new ArrayList<>();
+    private final Deck drawPile;
+    private final Deck discardPile;
 
-    /**
-     * Constructs a new Hand instance by drawing 7 cards from the provided deck.
-     * Each card is drawn from the top of the deck and added to the hand.
-     *
-     * @param deck the deck of cards to draw cards from
-     */
-    public Hand(Deck deck) {
+    public Hand() {
+        this.drawPile = Game.drawPile;
+        this.discardPile = Game.discardPile;
         for (int i = 0; i < 7; i++) {
-            hand.add(deck.getTopCard(true));
+            hand.add(drawPile.getTopCard(true));
         }
     }
 
-    /**
-     * Constructs a new Hand instance by drawing a specified number of cards from the provided deck.
-     * Each card is drawn from the top of the deck and added to the hand.
-     *
-     * @param deck the deck of cards to draw cards from
-     * @param numStartingCards the number of cards to draw from the deck to initialize the hand
-     */
-    public Hand(Deck deck, int numStartingCards) {
+    public Hand(int numStartingCards) {
+        this.drawPile = Game.drawPile;
+        this.discardPile = Game.discardPile;
         for (int i = 0; i < numStartingCards; i++) {
-            hand.add(deck.getTopCard(true));
+            hand.add(drawPile.getTopCard(true));
         }
     }
 
@@ -80,6 +73,16 @@ public class Hand {
         hand.addLast(newCard);
     }
 
+    public List<Integer> getPlayableCards() {
+        List<Integer> playableCards = new ArrayList<>();
+        for (int i = 0; i < hand.size(); i++) {
+            if (hand.get(i).canPlayCard(discardPile.getTopCard(false))) {
+                playableCards.add(i);
+            }
+        }
+        return playableCards;
+    }
+
     /**
      * Returns a string representation of the hand, listing all cards currently in it.
      *
@@ -87,9 +90,11 @@ public class Hand {
      */
     public String toString() {
         StringBuilder out = new StringBuilder();
-        int i = 1;
+        List<Integer> playableCards = getPlayableCards();
+        int i = 0;
         for (Card card: hand) {
-            out.append(i).append(") ").append(card).append(";");
+            if (playableCards.contains(i)) out.append(i + 1).append(") ").append(card).append(";");
+            else out.append("-) ").append(card).append(";");
             i++;
         }
         return String.valueOf(out);

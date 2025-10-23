@@ -13,22 +13,12 @@ public class Deck {
     One Wild Draw 4 card for each color.
      */
     private List<Card> deck;
-    private boolean isDiscardPile = false;
+    private boolean isDrawPile = false;
 
-    /**
-     * Constructs a new instance of the Deck class.
-     * If the deck is not a discard pile, it initializes a standard shuffled deck of cards.
-     * Otherwise, it marks the deck as a discard pile.
-     *
-     * @param isDiscardPile a boolean value indicating whether the deck should be a discard pile.
-     *                      If true, initializes the deck as a discard pile; otherwise, generates
-     *                      and shuffles a full deck of cards.
-     */
-    public Deck(boolean isDiscardPile) {
-        if (!isDiscardPile) {
+    public Deck(boolean isDrawPile) {
+        if (!isDrawPile) {
             this.deck = shuffleDeck(generateDeck());
-        } else {
-            this.isDiscardPile = true;
+            this.isDrawPile = true;
         }
     }
 
@@ -77,8 +67,8 @@ public class Deck {
      *
      * @param card the card to be added to the discard pile
      */
-    public void addCardToDiscardPile(Card card) {
-        if (isDiscardPile) deck.addFirst(card);
+    public void addCardToPile(Card card) {
+        if (!isDrawPile) deck.addFirst(card);
     }
 
     /**
