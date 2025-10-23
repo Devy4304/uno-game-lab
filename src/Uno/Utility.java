@@ -57,18 +57,28 @@ public class Utility {
          *                   should continue the border.
          */
         public static void writeTUIBox(String innerText, int width, boolean isBoxBelow, boolean isBoxAbove) {
+            // Separate the code into it's lines
             String[] innerTextSplit = innerText.split(";");
+
+            // Make the top bar, with or without connectors on top
             if (!isBoxAbove) System.out.println("╔" + repeatString("═", width - 2) + "╗");
             else System.out.println("╠" + repeatString("═", width - 2) + "╣");
+
+
             for (String text : innerTextSplit) {
-                String filteredText = text.replaceAll("\u001B\\[[;\\d]*m", ""); // Remove ANSI codes for length calculations
+                // Remove ANSI codes for length calculations
+                String filteredText = text.replaceAll("\u001B\\[[;\\d]*m", "");
+                // Get the length
                 int visibleLength = filteredText.length();
+                // Crop it if necessary (should never have to, hopefully)
                 if (visibleLength > width - 4) {
                     String croppedText = getCroppedText(width, text);
                     filteredText = text.replaceAll("\u001B\\[[;\\d]*m", "");
                 }
+                // Print it out!
                 System.out.println("║ " + text + Colors.RESET + repeatString(" ", width - 4 - filteredText.length()) + " ║");
             }
+            // Make the bottom bar, with or without connectors on the bottom
             if (!isBoxBelow) System.out.println("╚" + repeatString("═", width - 2) + "╝");
         }
 
@@ -84,23 +94,38 @@ public class Utility {
          * @return a cropped version of the input text that fits within the specified width
          */
         private static String getCroppedText(int width, String text) {
+
+            /*
+                NOTE: I did get a little help from AI here,
+                but I understand it fully and have added some
+                comments below to explain it. My previous idea
+                that I had was a custom escape code translation
+                system using the § symbol (which I did fully code).
+                However, that was a bad idea, so I went back to
+                standard ANSI escape codes and used a little AI to
+                get the code working. Thanks, IntelliJ.
+             */
+
             StringBuilder croppedText = new StringBuilder();
-            int currentLength = 0;
-            int i = 0;
+            int currentLength = 0; // Current VISIBLE text length (non-ANSI code)
+            int i = 0; // Index for iterating through the text
+
+            // Run until it's the right length or done with the text
             while (i < text.length() && currentLength < width - 4) {
-                if (text.charAt(i) == '\u001B') {
-                    int codeEnd = text.indexOf('m', i);
-                    if (codeEnd != -1) {
+                // Adds it to the output without increasing the currentLength if it's an ansi code
+                if (text.charAt(i) == '\u001B') { // ANSI escape character, not a String
+                    int codeEnd = text.indexOf('m', i); // Find where the ANSI code ends
+                    if (codeEnd != -1) { // If it ends, append only the ANSI code
                         croppedText.append(text, i, codeEnd + 1);
-                        i = codeEnd + 1;
-                        continue;
+                        i = codeEnd + 1; // Make the index where the ANSI code ends
+                        continue; // Finish this loop cycle early
                     }
                 }
-                croppedText.append(text.charAt(i));
-                currentLength++;
-                i++;
+                croppedText.append(text.charAt(i)); // Append the letter if it's not a ANSI escape code
+                currentLength++; // Increment currentLength
+                i++; // Increment Index
             }
-            return croppedText.toString();
+            return croppedText.toString(); // Return the output
         }
 
 
