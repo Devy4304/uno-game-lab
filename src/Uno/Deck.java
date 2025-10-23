@@ -53,7 +53,7 @@ public class Deck {
      */
     private static List<Card> generateDeck() {
         // A Uno deck has 108 cards
-        List<Card> deck = new ArrayList<Card>(108);
+        List<Card> deck = new ArrayList<>(108);
         // Iterate over all colors, RED, YELLOW, GREEN and BLUE
         for (Card.Colors color : Card.Colors.values()) {
             // Iterate through every type of card
