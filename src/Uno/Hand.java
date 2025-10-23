@@ -86,9 +86,11 @@ public class Hand {
      * @return a string describing the cards in the hand.
      */
     public String toString() {
-        StringBuilder out = new StringBuilder("Your hand has these cards: ");
+        StringBuilder out = new StringBuilder();
+        int i = 1;
         for (Card card: hand) {
-            out.append(card.toString()).append(" ");
+            out.append(i).append(") ").append(card).append(";");
+            i++;
         }
         return String.valueOf(out);
     }

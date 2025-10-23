@@ -101,7 +101,7 @@ public class Card {
      * @return a string containing the color-coded name of the card.
      */
     public String getColoredCardText() {
-        return getColorCode(cardColor) + getProperName() + Utility.RESET;
+        return getColorCode(cardColor) + cardColor + " " + getProperName() + Utility.Console.Colors.RESET;
     }
 
     /**
@@ -114,18 +114,18 @@ public class Card {
     public static String getColorCode(Colors color) {
         switch (color) {
             case Colors.RED -> {
-                return Utility.RED;
+                return Utility.Console.Colors.RED;
             }
             case Colors.YELLOW -> {
-                return Utility.YELLOW;
+                return Utility.Console.Colors.YELLOW;
             }
             case Colors.GREEN -> {
-                return Utility.GREEN;
+                return Utility.Console.Colors.GREEN;
             }
             case Colors.BLUE -> {
-                return Utility.BLUE;
+                return Utility.Console.Colors.BLUE;
             }default -> {
-                return Utility.RESET;
+                return Utility.Console.Colors.RESET;
             }
         }
     }
@@ -149,6 +149,6 @@ public class Card {
      * @return a string containing the card's color and proper name separated by a space.
      */
     public String toString() {
-        return cardColor + " " + getProperName();
+        return getColoredCardText();
     }
 }
