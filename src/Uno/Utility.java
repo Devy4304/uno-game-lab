@@ -42,24 +42,20 @@ public class Utility {
         }
 
         /**
-         * Writes a text-based user interface (TUI) styled box to the console, 
-         * formatted with ASCII box-drawing characters.
-         * The box encloses the provided text, which can be split into multiple lines
-         * using a semicolon (;) as a separator.
+         * Writes a text-based user interface (TUI) styled box to the console using ASCII
+         * box-drawing characters. The text is displayed as separate lines inside the box.
+         * Additional options allow for seamless continuation of boxes above or below.
          *
-         * @param innerText the text to display inside the box. Semicolons can  
-         *                  separate multiple lines.
-         * @param width the total width of the box, including borders. The text
-         *              inside will be aligned and cropped if it exceeds this width.
-         * @param isBoxBelow a flag indicating whether the box below this section 
-         *                   should continue the border.
-         * @param isBoxAbove a flag indicating whether the box above this section
-         *                   should continue the border.
+         * @param innerTextSplit an array of strings representing the lines of text to display inside the box.
+         *                       Each element corresponds to a separate line inside the box.
+         * @param width the total width of the box, including borders. The text within the box
+         *              will be aligned and cropped if it exceeds the specified width.
+         * @param isBoxBelow a flag indicating whether the box below this section should continue
+         *                   the border. When true, connectors will be used on the lower border.
+         * @param isBoxAbove a flag indicating whether the box above this section should continue
+         *                   the border. When true, connectors will be used on the upper border.
          */
-        public static void writeTUIBox(String innerText, int width, boolean isBoxBelow, boolean isBoxAbove) {
-            // Separate the code into it's lines
-            String[] innerTextSplit = innerText.split(";");
-
+        public static void writeTUIBox(String[] innerTextSplit, int width, boolean isBoxBelow, boolean isBoxAbove) {
             // Make the top bar, with or without connectors on top
             if (!isBoxAbove) System.out.println("╔" + repeatString("═", width - 2) + "╗");
             else System.out.println("╠" + repeatString("═", width - 2) + "╣");
@@ -80,6 +76,25 @@ public class Utility {
             }
             // Make the bottom bar, with or without connectors on the bottom
             if (!isBoxBelow) System.out.println("╚" + repeatString("═", width - 2) + "╝");
+        }
+
+        /**
+         * Writes a text-based user interface (TUI) styled box to the console,
+         * formatted with ASCII box-drawing characters. This method simplifies
+         * the usage by internally splitting the text into lines using a semicolon (;)
+         * as a separator and delegates the rendering to the corresponding overloaded method.
+         *
+         * @param innerText the text to display inside the box. Semicolons can
+         *                  separate multiple lines.
+         * @param width the total width of the box, including borders. The text
+         *              inside will be aligned and cropped if it exceeds this width.
+         * @param isBoxBelow a flag indicating whether the box below this section
+         *                   should continue the border.
+         * @param isBoxAbove a flag indicating whether the box above this section
+         *                   should continue the border.
+         */
+        public static void writeTUIBox(String innerText, int width, boolean isBoxBelow, boolean isBoxAbove) {
+            writeTUIBox(innerText.split(";"), width, isBoxBelow, isBoxAbove);
         }
 
         /**
