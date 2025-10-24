@@ -5,22 +5,16 @@ import java.util.List;
 
 public class Hand {
     private final List<Card> hand = new ArrayList<>();
-    private final Deck drawPile;
-    private final Deck discardPile;
 
     public Hand() {
-        this.drawPile = Game.drawPile;
-        this.discardPile = Game.discardPile;
         for (int i = 0; i < 7; i++) {
-            hand.add(drawPile.getTopCard(true));
+            hand.add(Game.drawPile.getTopCard(true));
         }
     }
 
     public Hand(int numStartingCards) {
-        this.drawPile = Game.drawPile;
-        this.discardPile = Game.discardPile;
         for (int i = 0; i < numStartingCards; i++) {
-            hand.add(drawPile.getTopCard(true));
+            hand.add(Game.drawPile.getTopCard(true));
         }
     }
 
@@ -76,7 +70,7 @@ public class Hand {
     public List<Integer> getPlayableCards() {
         List<Integer> playableCards = new ArrayList<>();
         for (int i = 0; i < hand.size(); i++) {
-            if (hand.get(i).canPlayCard(discardPile.getTopCard(false))) {
+            if (hand.get(i).canPlayCard(Game.discardPile.getTopCard(false))) {
                 playableCards.add(i);
             }
         }

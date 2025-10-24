@@ -76,7 +76,7 @@ public class Utility {
             scanner.nextLine(); // Clear buffer
             String in = scanner.nextLine();
             System.out.println();
-            return  in;
+            return in;
         }
 
         public static String askForUsername() {
