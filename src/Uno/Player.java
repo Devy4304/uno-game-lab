@@ -57,7 +57,7 @@ public class Player {
             return;
         }
 
-        action(scores.indexOf(bestScore));
+        action(scores.indexOf(bestScore) + 1);
     }
 
 
