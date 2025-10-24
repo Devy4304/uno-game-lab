@@ -97,6 +97,9 @@ public class Hand {
             else out.append("-) ").append(card).append(";");
             i++;
         }
+        if (playableCards.isEmpty()) {
+            out.append(i+1).append(") Take Card from Draw Pile");
+        }
         return String.valueOf(out);
     }
 }

@@ -1,6 +1,6 @@
 package Uno;
 
-import java.awt.*;
+import java.util.Scanner;
 
 public class Utility {
     public static class Console {
@@ -25,6 +25,27 @@ public class Utility {
             public static final String WHITE_BACKGROUND = "\u001B[47m";
         }
 
+        private static final int boxWidth = 40;
+        private static final Scanner scanner = new Scanner(System.in);
+        private static boolean canDisplayANSICodes = true;
+        private static boolean hasCheckedForANSI = false;
+
+        public static void checkForANSI() {
+            if (!hasCheckedForANSI) {
+                Utility.Console.writeTUIBox("ANSI SUPPORT CHECK;" + "-".repeat(Utility.Console.getBoxWidth() - 4) + ";Is the following text green?;" + Utility.Console.Colors.GREEN + "HOPEFULLY GREEN TEXT" + Utility.Console.Colors.RESET + ";1) Yes;2) No", false, false);
+                canDisplayANSICodes = (Utility.Console.getNumericalInput(1, 2) == 1);
+                hasCheckedForANSI = true;
+            }
+        }
+
+        public static boolean supportsANSICodes() {
+            return canDisplayANSICodes;
+        }
+
+        public static int getBoxWidth() {
+            return boxWidth;
+        }
+
         /**
          * Clears the console screen by printing ANSI escape codes.
          * This method resets the cursor position to the top-left corner of the console
@@ -41,24 +62,32 @@ public class Utility {
             }
         }
 
-        /**
-         * Writes a text-based user interface (TUI) styled box to the console using ASCII
-         * box-drawing characters. The text is displayed as separate lines inside the box.
-         * Additional options allow for seamless continuation of boxes above or below.
-         *
-         * @param innerTextSplit an array of strings representing the lines of text to display inside the box.
-         *                       Each element corresponds to a separate line inside the box.
-         * @param width the total width of the box, including borders. The text within the box
-         *              will be aligned and cropped if it exceeds the specified width.
-         * @param isBoxBelow a flag indicating whether the box below this section should continue
-         *                   the border. When true, connectors will be used on the lower border.
-         * @param isBoxAbove a flag indicating whether the box above this section should continue
-         *                   the border. When true, connectors will be used on the upper border.
-         */
-        public static void writeTUIBox(String[] innerTextSplit, int width, boolean isBoxBelow, boolean isBoxAbove) {
+        public static int getNumericalInput(int min, int max) {
+            int input = 0;
+            do {
+                System.out.print("  => ");
+                input = scanner.nextInt();
+            } while (input < min || input > max);
+            return input;
+        }
+
+        public static String getStringInput() {
+            System.out.print("\n  => ");
+            scanner.nextLine(); // Clear buffer
+            String in = scanner.nextLine();
+            System.out.println();
+            return  in;
+        }
+
+        public static String askForUsername() {
+            writeTUIBox("What is your username?", false, false);
+            return getStringInput();
+        }
+
+        public static void writeTUIBox(String[] innerTextSplit, boolean isBoxBelow, boolean isBoxAbove) {
             // Make the top bar, with or without connectors on top
-            if (!isBoxAbove) System.out.println("╔" + repeatString("═", width - 2) + "╗");
-            else System.out.println("╠" + repeatString("═", width - 2) + "╣");
+            if (!isBoxAbove) System.out.println("╔" + repeatString("═", boxWidth - 2) + "╗");
+            else System.out.println("╠" + repeatString("═", boxWidth - 2) + "╣");
 
 
             for (String text : innerTextSplit) {
@@ -67,48 +96,32 @@ public class Utility {
                 // Get the length
                 int visibleLength = filteredText.length();
                 // Crop it if necessary (should never have to, hopefully)
-                if (visibleLength > width - 4) {
-                    String croppedText = getCroppedText(width, text);
+                if (visibleLength > boxWidth - 4) {
                     filteredText = text.replaceAll("\u001B\\[[;\\d]*m", "");
                 }
+                String croppedText = getCroppedText(text);
                 // Print it out!
-                System.out.println("║ " + text + Colors.RESET + repeatString(" ", width - 4 - filteredText.length()) + " ║");
+                System.out.println("║ " + croppedText + Colors.RESET + repeatString(" ", boxWidth - 4 - filteredText.length()) + " ║");
             }
             // Make the bottom bar, with or without connectors on the bottom
-            if (!isBoxBelow) System.out.println("╚" + repeatString("═", width - 2) + "╝");
+            if (!isBoxBelow) System.out.println("╚" + repeatString("═", boxWidth - 2) + "╝");
         }
 
-        /**
-         * Writes a text-based user interface (TUI) styled box to the console,
-         * formatted with ASCII box-drawing characters. This method simplifies
-         * the usage by internally splitting the text into lines using a semicolon (;)
-         * as a separator and delegates the rendering to the corresponding overloaded method.
-         *
-         * @param innerText the text to display inside the box. Semicolons can
-         *                  separate multiple lines.
-         * @param width the total width of the box, including borders. The text
-         *              inside will be aligned and cropped if it exceeds this width.
-         * @param isBoxBelow a flag indicating whether the box below this section
-         *                   should continue the border.
-         * @param isBoxAbove a flag indicating whether the box above this section
-         *                   should continue the border.
-         */
-        public static void writeTUIBox(String innerText, int width, boolean isBoxBelow, boolean isBoxAbove) {
-            writeTUIBox(innerText.split(";"), width, isBoxBelow, isBoxAbove);
+        public static void writeTUIBox(String innerText, boolean isBoxBelow, boolean isBoxAbove) {
+            writeTUIBox(innerText.split(";"), isBoxBelow, isBoxAbove);
         }
 
         /**
          * Crops the input text to fit within the specified width,
-         * while handling special ANSI escape codes to maintain 
+         * while handling special ANSI escape codes to maintain
          * text formatting. The cropped result will be limited to
-         * ensure the final text's visible portion is within the 
+         * ensure the final text's visible portion is within the
          * given width.
          *
-         * @param width the maximum number of visible characters allowed for the text
          * @param text the input text to be cropped, which may include ANSI escape codes
          * @return a cropped version of the input text that fits within the specified width
          */
-        private static String getCroppedText(int width, String text) {
+        private static String getCroppedText(String text) {
 
             /*
                 NOTE: I did get a little help from AI here,
@@ -126,12 +139,12 @@ public class Utility {
             int i = 0; // Index for iterating through the text
 
             // Run until it's the right length or done with the text
-            while (i < text.length() && currentLength < width - 4) {
+            while (i < text.length() && currentLength < Console.boxWidth - 4) {
                 // Adds it to the output without increasing the currentLength if it's an ansi code
                 if (text.charAt(i) == '\u001B') { // ANSI escape character, not a String
                     int codeEnd = text.indexOf('m', i); // Find where the ANSI code ends
                     if (codeEnd != -1) { // If it ends, append only the ANSI code
-                        croppedText.append(text, i, codeEnd + 1);
+                        if (canDisplayANSICodes) croppedText.append(text, i, codeEnd + 1);
                         i = codeEnd + 1; // Make the index where the ANSI code ends
                         continue; // Finish this loop cycle early
                     }
@@ -144,7 +157,7 @@ public class Utility {
         }
 
 
-        private static String repeatString(String string, int numberOfRepeats) {
+        public static String repeatString(String string, int numberOfRepeats) {
             if (numberOfRepeats > 0) {
                 return string.repeat(numberOfRepeats);
             } else {

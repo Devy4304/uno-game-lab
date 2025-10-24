@@ -101,7 +101,11 @@ public class Card {
      * @return a string containing the color-coded name of the card.
      */
     public String getColoredCardText() {
-        return getColorCode(cardColor) + cardColor + " " + getProperName() + Utility.Console.Colors.RESET;
+        if (cardNum < 13) {
+            return getColorCode(cardColor) + cardColor + " " + getProperName() + Utility.Console.Colors.RESET;
+        } else {
+            return Utility.Console.Colors.RESET + getProperName() + Utility.Console.Colors.RESET;
+        }
     }
 
     /**
@@ -138,7 +142,7 @@ public class Card {
      * @return true if the current card can be played on the provided card; otherwise, false
      */
     public boolean canPlayCard(Card otherCard) {
-        return (cardNum == otherCard.cardNum || cardColor == otherCard.cardColor);
+        return (cardNum == otherCard.cardNum || cardColor == otherCard.cardColor || cardNum >= 13);
     }
 
     /**

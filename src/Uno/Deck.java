@@ -62,6 +62,14 @@ public class Deck {
         return deck;
     }
 
+    public void prepDiscardPile() {
+        if (!isDrawPile) {
+            while (getTopCard(false).getCardNum() >= 13) {
+                getTopCard(true);
+            }
+        }
+    }
+
     /**
      * Adds a specified card to the discard pile if the deck represents a discard pile.
      *
