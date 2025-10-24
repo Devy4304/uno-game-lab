@@ -84,6 +84,32 @@ public class Utility {
             return getStringInput();
         }
 
+        public static Card.Colors askForWildColor() {
+            writeTUIBox("What color do you want?;" +
+                    Colors.RESET + "1) " + Colors.RED+"Red;" +
+                    Colors.RESET + "2) " + Colors.YELLOW+"Yellow;" +
+                    Colors.RESET + "3) " + Colors.GREEN+"Green;" +
+                    Colors.RESET + "4) " + Colors.BLUE+"Blue" +
+                    Colors.RESET
+                    ,false, false
+            );
+
+            switch (getNumericalInput(1, 4)) {
+                case 2 -> {
+                    return Card.Colors.YELLOW;
+                }
+                case 3 -> {
+                    return Card.Colors.GREEN;
+                }
+                case 4 -> {
+                    return  Card.Colors.BLUE;
+                }
+                default -> {
+                    return Card.Colors.RED; // Defaults to red if somehow it is not in-bounds, 1 option is also covered here
+                }
+            }
+        }
+
         public static void writeTUIBox(String[] innerTextSplit, boolean isBoxBelow, boolean isBoxAbove) {
             // Make the top bar, with or without connectors on top
             if (!isBoxAbove) System.out.println("╔" + repeatString("═", boxWidth - 2) + "╗");

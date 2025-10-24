@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class Player {
-    Hand hand;
-    String username;
+    private Hand hand;
+    private String username;
     private final boolean bot;
 
     public Player(String username, boolean isBot) {
@@ -25,19 +25,27 @@ public class Player {
         return bot;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public Hand getHand() {
+        return hand;
+    }
+
     public boolean isWin() {
         return (hand.numCardsInHand() == 0);
     }
 
     public void action(int cardHandIndex) {
-        if (cardHandIndex >= 1 && cardHandIndex <= hand.numCardsInHand()) {
+        if (cardHandIndex >= 0 && cardHandIndex < hand.numCardsInHand()) {
             Card card = hand.getCardFromHand(cardHandIndex, true);
             Game.discardPile.addCardToPile(card);
         } else if (cardHandIndex == hand.numCardsInHand() + 1) {
             hand.addCard(Game.drawPile.getTopCard(true));
         } else {
             // Worry about reprompting later
-            throw new Error("You typed an invalid value!");
+            throw new Error("You typed an invalid value!" + cardHandIndex);
         }
     }
 
@@ -53,11 +61,16 @@ public class Player {
         }
 
         if (bestScore == 0) {
-            action(hand.numCardsInHand() + 1);
+            hand.addCard(Game.drawPile.getTopCard(true));
             return;
         }
+        System.out.println(hand.getCardFromHand(scores.indexOf(bestScore), false).getColoredCardText(true));
 
-        action(scores.indexOf(bestScore) + 1);
+        if (hand.getCardFromHand(scores.indexOf(bestScore), false).getCardNum() >= 13) {
+
+        }
+
+        action(scores.indexOf(bestScore));
     }
 
 

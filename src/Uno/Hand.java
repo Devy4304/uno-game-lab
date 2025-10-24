@@ -58,6 +58,8 @@ public class Hand {
         }
     }
 
+    // METHOD TO GET THE CARD COLOR WITH THE MOST CARDS OF THAT COLOR
+
     /**
      * Adds a new card to the current hand.
      *

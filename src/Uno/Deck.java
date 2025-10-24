@@ -13,12 +13,10 @@ public class Deck {
     One Wild Draw 4 card for each color.
      */
     private List<Card> deck;
-    private boolean isDrawPile = false;
 
-    public Deck(boolean isDrawPile) {
-        if (!isDrawPile) {
+    public Deck(boolean fillWithCards) {
+        if (fillWithCards) {
             this.deck = shuffleDeck(generateDeck());
-            this.isDrawPile = true;
         }
     }
 
@@ -63,10 +61,8 @@ public class Deck {
     }
 
     public void prepDiscardPile() {
-        if (!isDrawPile) {
-            while (getTopCard(false).getCardNum() >= 13) {
-                getTopCard(true);
-            }
+        while (getTopCard(false).getCardNum() >= 13) {
+            getTopCard(true);
         }
     }
 
@@ -76,7 +72,7 @@ public class Deck {
      * @param card the card to be added to the discard pile
      */
     public void addCardToPile(Card card) {
-        if (!isDrawPile) deck.addFirst(card);
+        deck.add(card);
     }
 
     /**
@@ -100,9 +96,9 @@ public class Deck {
     // This is so I don't have the same code twice
     private Card getCard(boolean removeAfterGet) {
         // Get the top card
-        Card card = deck.getFirst();
+        Card card = deck.getLast();
         // Remove it if wanted
-        if (removeAfterGet) deck.removeFirst();
+        if (removeAfterGet) deck.removeLast();
         // Return that top card
         return card;
     }

@@ -17,7 +17,7 @@ public class Card {
     13: Wild
     14: Draw 4 Wild
      */
-    private final Colors cardColor;
+    private Colors cardColor;
 
     /**
      * Constructs a Uno.Card with a specified number and color.
@@ -92,6 +92,12 @@ public class Card {
         }
     }
 
+    public void setWildColor(Colors color) {
+        if (cardNum >= 13) {
+            cardColor = color;
+        }
+    }
+
     /**
      * Constructs a text representation of the card, including its color and proper name.
      * The color is derived from the card's color using the color code provided by the `getColorCode` method.
@@ -100,8 +106,8 @@ public class Card {
      *
      * @return a string containing the color-coded name of the card.
      */
-    public String getColoredCardText() {
-        if (cardNum < 13) {
+    public String getColoredCardText(boolean showWildColor) {
+        if (cardNum < 13 || showWildColor) {
             return getColorCode(cardColor) + cardColor + " " + getProperName() + Utility.Console.Colors.RESET;
         } else {
             return Utility.Console.Colors.RESET + getProperName() + Utility.Console.Colors.RESET;
@@ -153,6 +159,6 @@ public class Card {
      * @return a string containing the card's color and proper name separated by a space.
      */
     public String toString() {
-        return getColoredCardText();
+        return getColoredCardText(false);
     }
 }
