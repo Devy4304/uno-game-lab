@@ -8,6 +8,14 @@ public class Game {
 
     private static int flowDirection = 1;
 
+    /**
+     * Initializes the game by setting up the draw pile, discard pile, and players.
+     * The draw pile is reset, a starting card is placed on the discard pile, and
+     * the players are created. At least one human player is assumed, with additional
+     * computer-controlled players based on the specified number of bots.
+     *
+     * @param numBots the number of computer-controlled players to include in the game
+     */
     public static void initGame(int numBots) {
         drawPile.resetDeck();
 
@@ -22,14 +30,42 @@ public class Game {
         }
     }
 
+    /**
+     * Retrieves the current flow direction of the game.
+     * The flow direction determines the order in which players take turns.
+     * A positive value (e.g., 1) indicates clockwise flow, while a negative value (e.g., -1)
+     * denotes counterclockwise flow.
+     *
+     * @return the current flow direction as an integer, where 1 represents clockwise,
+     *         and -1 represents counterclockwise.
+     */
     public static int getFlowDirection() {
         return flowDirection;
     }
 
+    /**
+     * Reverses the current flow direction of the game.
+     * The flow direction determines the order in which players take turns. A value of 1 represents
+     * clockwise flow, while a value of -1 represents counterclockwise flow. This method toggles
+     * the flow direction between these two states.
+     */
     public static void flipFlowDirection() {
         flowDirection = (flowDirection == 1) ? -1 : 1;
     }
 
+    /**
+     * Prints a summary of all bot players' game statuses.
+     * <p>
+     * This method iterates through all players in the game starting from the second player,
+     * since the first player is assumed to be the human player. For each bot player, the
+     * following details are included in the summary:
+     * - The bot's username
+     * - The most recent card the bot has played
+     * - The total number of cards remaining in the bot's hand
+     * <p>
+     * The information is formatted, separated by dividing lines, and displayed using
+     * a utility method for rendering a text-based user interface box.
+     */
     public static void printBotSummary() {
         StringBuilder text = new StringBuilder();
         for (int i = 1; i < players.length; i++) {

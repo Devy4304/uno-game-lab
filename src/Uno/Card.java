@@ -1,6 +1,18 @@
 package Uno;
 
+/**
+ * Represents a card used in the game of Uno.
+ * Each card has a numerical identifier and a color. Cards with special
+ * numbers correspond to unique actions in the game, such as "Draw Two."
+ * Wild cards can change their color during gameplay.
+ */
 public class Card {
+    /**
+     * The Colors enum represents the possible colors of a card in a card game.
+     * It includes the primary colors used to categorize cards.
+     * This enum is primarily utilized to define and handle the colors of game cards,
+     * offering a standardized set of values for color comparison and management.
+     */
     public enum Colors {
         RED,
         YELLOW,
@@ -8,14 +20,24 @@ public class Card {
         BLUE
     }
 
+    /**
+     * Represents the numerical identifier of the card. The card number determines
+     * the type or value of the card. Valid values range from 0 to 14:
+     * - 0 through 9 are numeric cards
+     * - 10 represents "Draw Two"
+     * - 11 represents "Reverse"
+     * - 12 represents "Skip"
+     * - 13 represents "Wild"
+     * - 14 represents "Wild Draw 4"
+     *
+     * This value is immutable once the card has been created.
+     */
     private final int cardNum;
-    /*
-    0-9: Numbers
-    10: Draw Two
-    11: Reverse
-    12: Skip
-    13: Wild
-    14: Draw 4 Wild
+
+    /**
+     * Represents the color of a card in the Uno game.
+     * Derived from the Colors enum, which includes RED, YELLOW, GREEN, and BLUE.
+     * This variable is primarily used to indicate and handle the card's associated color.
      */
     private Colors cardColor;
 
@@ -92,6 +114,12 @@ public class Card {
         }
     }
 
+    /**
+     * Sets the color for a wild card, allowing it to change its color during gameplay.
+     * This operation is only permitted if the card number represents a wild card (13 or higher).
+     *
+     * @param color the new color to assign to the wild card, represented as a value from the Colors enum
+     */
     public void setWildColor(Colors color) {
         if (cardNum >= 13) {
             cardColor = color;
@@ -99,12 +127,16 @@ public class Card {
     }
 
     /**
-     * Constructs a text representation of the card, including its color and proper name.
-     * The color is derived from the card's color using the color code provided by the `getColorCode` method.
-     * The proper name of the card is determined by the `getProperName` method.
-     * The resulting string combines the color code, the name of the card, and a reset code to terminate formatting.
+     * Generates and returns a textual representation of the card with optional color formatting.
+     * If the card is a special wild card (cardNum >= 13) and the `showWildColor` parameter is false,
+     * the card text is returned without the color formatting. For other cards or when `showWildColor`
+     * is true, the color code and card color are included in the output.
      *
-     * @return a string containing the color-coded name of the card.
+     * @param showWildColor a boolean indicating whether to include color formatting for wild cards.
+     *                      If true, the color formatting is applied even for wild cards. If false,
+     *                      wild cards are rendered without a color prefix.
+     * @return a string representing the card's color and name, with optional color formatting based
+     *         on the `showWildColor` parameter.
      */
     public String getColoredCardText(boolean showWildColor) {
         if (cardNum < 13 || showWildColor) {
@@ -115,11 +147,12 @@ public class Card {
     }
 
     /**
-     * Returns the color code string associated with the specified color from the Colors enum.
-     * If the provided color does not match any defined case, a reset color code is returned.
+     * Returns the console color code corresponding to the specified color.
+     * If the provided color does not match any specific case, it defaults to the reset color code.
      *
-     * @param color the color from the Colors enum for which the color code is requested
-     * @return the corresponding ANSI color code string for the specified color
+     * @param color the color provided as a value from the Colors enum
+     *              (RED, YELLOW, GREEN, or BLUE).
+     * @return the console color code as a string corresponding to the provided color.
      */
     public static String getColorCode(Colors color) {
         switch (color) {
@@ -152,11 +185,11 @@ public class Card {
     }
 
     /**
-     * Returns a string representation of the card, including its color and proper name.
-     * The color is represented as a string derived from the card's `Colors` enum,
-     * and the proper name is determined by the card's number using `getProperName`.
+     * Returns the string representation of the card.
+     * This representation includes the card's color and name without additional
+     * color formatting for wild cards.
      *
-     * @return a string containing the card's color and proper name separated by a space.
+     * @return a string representing the card's color and name without color formatting for wild cards.
      */
     public String toString() {
         return getColoredCardText(false);

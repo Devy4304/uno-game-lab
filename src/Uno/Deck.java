@@ -14,6 +14,13 @@ public class Deck {
      */
     private List<Card> deck;
 
+    /**
+     * Constructs a new Deck instance. If the {@code fillWithCards} parameter is true,
+     * the deck will be initialized with a shuffled set of cards generated from a standard Uno deck.
+     *
+     * @param fillWithCards a boolean indicating whether the deck should be initialized
+     *                      with a shuffled set of Uno cards
+     */
     public Deck(boolean fillWithCards) {
         if (fillWithCards) {
             this.deck = shuffleDeck(generateDeck());
@@ -60,6 +67,13 @@ public class Deck {
         return deck;
     }
 
+    /**
+     * Prepares the discard pile by ensuring that the top card of the pile
+     * is a valid starting card. Specifically, it repeatedly checks the top card
+     * and removes it from the deck if it has a card number greater than or equal to 13.
+     * This is typically used to eliminate invalid starting cards like "Wild"
+     * or "Wild Draw 4" which may not be suitable as the initial card in certain card games.
+     */
     public void prepDiscardPile() {
         while (getTopCard(false).getCardNum() >= 13) {
             getTopCard(true);
@@ -67,9 +81,9 @@ public class Deck {
     }
 
     /**
-     * Adds a specified card to the discard pile if the deck represents a discard pile.
+     * Adds a card to the deck pile.
      *
-     * @param card the card to be added to the discard pile
+     * @param card the card to be added to the deck
      */
     public void addCardToPile(Card card) {
         deck.add(card);

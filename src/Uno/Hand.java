@@ -2,15 +2,35 @@ package Uno;
 
 import java.util.*;
 
+/**
+ * The Hand class represents a collection of cards a player holds in a card game.
+ * It includes methods for managing the hand, such as adding or removing cards,
+ * determining playable cards, and calculating hand-specific statistics.
+ */
 public class Hand {
     private final List<Card> hand = new ArrayList<>();
 
+    /**
+     * Constructs a new Hand object and initializes it with a default set of cards.
+     * This constructor populates the hand with seven cards drawn from the game's draw pile.
+     * Each card is drawn from the top of the draw pile using the `getTopCard` method,
+     * which optionally removes the card from the deck after retrieval.
+     */
     public Hand() {
         for (int i = 0; i < 7; i++) {
             hand.add(Game.drawPile.getTopCard(true));
         }
     }
 
+    /**
+     * Constructs a new Hand object with a specified number of starting cards.
+     * This constructor populates the hand by drawing the specified number of
+     * cards from the game's draw pile. Each card is drawn from the top of the draw
+     * pile using the `getTopCard` method, which optionally removes the card from
+     * the deck after retrieval.
+     *
+     * @param numStartingCards the number of cards to draw from the draw pile to initialize the hand
+     */
     public Hand(int numStartingCards) {
         for (int i = 0; i < numStartingCards; i++) {
             hand.add(Game.drawPile.getTopCard(true));
@@ -57,6 +77,12 @@ public class Hand {
         }
     }
 
+    /**
+     * Determines the color that is most frequently used by the cards in the hand.
+     * Wild cards (cards with a number greater than or equal to 13) are ignored when counting.
+     *
+     * @return the color that is used by the highest number of cards in the hand
+     */
     public Card.Colors getColorThatTheMostCardsUse() {
         // Yay!!!! EnumMap!!!!!!
         Map<Card.Colors, Integer> count = new EnumMap<>(Card.Colors.class);
@@ -80,6 +106,15 @@ public class Hand {
         hand.addLast(newCard);
     }
 
+    /**
+     * Retrieves a list of indices representing the cards in the hand that can
+     * be played on the current top card of the discard pile.
+     * A card is considered playable if it shares the same number or color as
+     * the top card, or if it is a wild card (e.g., card number >= 13).
+     *
+     * @return a list of integers, where each integer represents the index of a
+     *         playable card in the hand. The list is empty if no cards are playable.
+     */
     public List<Integer> getPlayableCards() {
         List<Integer> playableCards = new ArrayList<>();
         for (int i = 0; i < hand.size(); i++) {
@@ -91,9 +126,13 @@ public class Hand {
     }
 
     /**
-     * Returns a string representation of the hand, listing all cards currently in it.
+     * Generates a string representation of the hand, indicating which cards can
+     * be played and the available actions. Playable cards are marked with their
+     * index (starting from 1), and unplayable cards are marked with a placeholder.
+     * If no cards are playable, an option to draw a card from the draw pile is added.
      *
-     * @return a string describing the cards in the hand.
+     * @return a string representing the current state of the hand, including
+     *         playable and unplayable cards along with possible actions.
      */
     public String toString() {
         StringBuilder out = new StringBuilder();

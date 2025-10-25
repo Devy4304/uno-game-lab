@@ -2,8 +2,40 @@ package Uno;
 
 import java.util.Scanner;
 
+/**
+ * Utility class provides a set of static methods and constants
+ * that can be commonly used across different areas of an application.
+ * It serves as a helper class, grouped with utility functions
+ * designed to perform specific, reusable tasks.
+ * <p>
+ * This class cannot be instantiated, and all methods are intended
+ * to be accessed in a static manner.
+ * <p>
+ * The class does not maintain any state or instance-level data.
+ * <p>
+ * Extends the Object class, inheriting its default behaviors.
+ */
 public class Utility {
     public static class Console {
+        /**
+         * The Colors class provides a collection of ANSI escape codes for text
+         * formatting, including colors and backgrounds, in supported terminal environments.
+         * These constants can be used to modify text appearance in the console,
+         * such as changing text colors, background colors, or resetting formatting.
+         * <p>
+         * The behavior of these codes depends on the terminal's support for ANSI escape codes
+         * and may not function in non-compliant environments.
+         * <p>
+         * Text color constants:
+         * - BLACK, RED, GREEN, YELLOW, BLUE, PURPLE, CYAN, WHITE
+         * <p>
+         * Background color constants:
+         * - BLACK_BACKGROUND, RED_BACKGROUND, GREEN_BACKGROUND,
+         *   YELLOW_BACKGROUND, BLUE_BACKGROUND, PURPLE_BACKGROUND,
+         *   CYAN_BACKGROUND, WHITE_BACKGROUND
+         * <p>
+         * Use RESET to reset formatting back to the default state.
+         */
         public static class Colors {
             public static final String RESET = "\u001B[0m";
             public static final String BLACK = "\u001B[30m";
@@ -30,6 +62,18 @@ public class Utility {
         private static boolean canDisplayANSICodes = true;
         private static boolean hasCheckedForANSI = false;
 
+        /**
+         * Checks if the console supports ANSI escape codes and updates the internal state.
+         * <p>
+         * This method prompts the user to determine whether ANSI color codes are
+         * displayed correctly in their terminal. It displays a test message in green text
+         * and asks the user to confirm its appearance. The result of the user's input is
+         * stored in a class-level flag to indicate whether ANSI support is available.
+         * <p>
+         * The check is performed only once during the runtime to avoid redundant prompts.
+         * Later calls to this method will not prompt the user again if the check
+         * has already been completed.
+         */
         public static void checkForANSI() {
             if (!hasCheckedForANSI) {
                 Utility.Console.writeTUIBox("ANSI SUPPORT CHECK;" + "-".repeat(Utility.Console.getBoxWidth() - 4) + ";Is the following text green?;" + Utility.Console.Colors.GREEN + "HOPEFULLY GREEN TEXT" + Utility.Console.Colors.RESET + ";1) Yes;2) No", false, false);
@@ -38,10 +82,23 @@ public class Utility {
             }
         }
 
+        /**
+         * Determines whether the current console environment supports ANSI escape codes.
+         * This method relies on an internal class-level flag that tracks if ANSI codes
+         * can be displayed in the terminal. The flag is updated based on user confirmation
+         * during an initial check performed by the `checkForANSI` method.
+         *
+         * @return true if the console supports ANSI escape codes; false otherwise
+         */
         public static boolean supportsANSICodes() {
             return canDisplayANSICodes;
         }
 
+        /**
+         * Retrieves the width of the box used for console-based text formatting or layout.
+         *
+         * @return the width of the box as an integer
+         */
         public static int getBoxWidth() {
             return boxWidth;
         }
@@ -62,6 +119,14 @@ public class Utility {
             }
         }
 
+        /**
+         * Prompts the user to input a numerical value within the specified range.
+         * Continues to prompt until a valid input is provided.
+         *
+         * @param min the minimum acceptable value (inclusive)
+         * @param max the maximum acceptable value (inclusive)
+         * @return the valid numerical input provided by the user
+         */
         public static int getNumericalInput(int min, int max) {
             int input = 0;
             do {
@@ -71,6 +136,14 @@ public class Utility {
             return input;
         }
 
+        /**
+         * Prompts the user for string input via the console and returns the entered value.
+         * The method ensures that any residual input in the scanner's buffer is cleared
+         * before capturing the new input. It also provides a prompt symbol to indicate
+         * that user input is expected.
+         *
+         * @return the string entered by the user
+         */
         public static String getStringInput() {
             System.out.print("\n  => ");
             scanner.nextLine(); // Clear buffer
@@ -79,11 +152,26 @@ public class Utility {
             return in;
         }
 
+        /**
+         * Prompts the user to enter their username via the console.
+         * Displays a formatted message asking for the username and waits for user input.
+         *
+         * @return the username entered by the user as a string
+         */
         public static String askForUsername() {
             writeTUIBox("What is your username?", false, false);
             return getStringInput();
         }
 
+        /**
+         * Prompts the user to select a wild card color from a predefined set of options
+         * (Red, Yellow, Green, Blue) and returns the chosen color.
+         * This method displays a menu of color choices, waits for numerical input within
+         * the valid range, and maps the input to its corresponding color. If an invalid
+         * or out-of-bounds input is provided, the method defaults to returning the Red color.
+         *
+         * @return the selected wildcard color as one of the enumerated values in {@code Card.Colors}
+         */
         public static Card.Colors askForWildColor() {
             writeTUIBox("What color do you want?;" +
                     Colors.RESET + "1) " + Colors.RED+"Red;" +
@@ -110,6 +198,18 @@ public class Utility {
             }
         }
 
+        /**
+         * Writes a text-based User Interface (TUI) box to the console, formatting the
+         * input text within a bordered box structure. The method optionally allows
+         * for connector-style linking with a box above or below the current box.
+         *
+         * @param innerTextSplit an array of strings, where each element represents a line of text
+         *                       to be displayed inside the box
+         * @param isBoxBelow     a boolean indicating whether the box has a connector at the bottom
+         *                       linking it to another box below
+         * @param isBoxAbove     a boolean indicating whether the box has a connector at the top
+         *                       linking it to another box above
+         */
         public static void writeTUIBox(String[] innerTextSplit, boolean isBoxBelow, boolean isBoxAbove) {
             // Make the top bar, with or without connectors on top
             if (!isBoxAbove) System.out.println("╔" + repeatString("═", boxWidth - 2) + "╗");
@@ -133,6 +233,19 @@ public class Utility {
             if (!isBoxBelow) System.out.println("╚" + repeatString("═", boxWidth - 2) + "╝");
         }
 
+        /**
+         * Writes a text-based User Interface (TUI) box to the console, formatting the input text
+         * within a bordered box structure. This method simplifies the process by accepting a single
+         * string as input, which is split into multiple lines for display within the box. The method
+         * also allows for optional connections to a box above or below the current box.
+         *
+         * @param innerText  a semicolon-separated string where each segment represents a line of text
+         *                   to be displayed inside the box
+         * @param isBoxBelow a boolean indicating whether the box has a connector at the bottom
+         *                   linking it to another box below
+         * @param isBoxAbove a boolean indicating whether the box has a connector at the top
+         *                   linking it to another box above
+         */
         public static void writeTUIBox(String innerText, boolean isBoxBelow, boolean isBoxAbove) {
             writeTUIBox(innerText.split(";"), isBoxBelow, isBoxAbove);
         }
@@ -182,7 +295,17 @@ public class Utility {
             return croppedText.toString(); // Return the output
         }
 
-
+        /**
+         * Repeats the given string a specified number of times. If the number of repeats
+         * is zero or negative, an empty string is returned.
+         *
+         * @param string the string to be repeated
+         * @param numberOfRepeats the number of times the string should be repeated;
+         *                        must be a non-negative integer
+         * @return a new string containing the repeated input string the specified
+         *         number of times, or an empty string if the number of repeats is zero
+         *         or negative
+         */
         public static String repeatString(String string, int numberOfRepeats) {
             if (numberOfRepeats > 0) {
                 return string.repeat(numberOfRepeats);
