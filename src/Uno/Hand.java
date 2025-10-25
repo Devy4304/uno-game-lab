@@ -1,7 +1,6 @@
 package Uno;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Hand {
     private final List<Card> hand = new ArrayList<>();
@@ -58,7 +57,19 @@ public class Hand {
         }
     }
 
-    // METHOD TO GET THE CARD COLOR WITH THE MOST CARDS OF THAT COLOR
+    public Card.Colors getColorThatTheMostCardsUse() {
+        // Yay!!!! EnumMap!!!!!!
+        Map<Card.Colors, Integer> count = new EnumMap<>(Card.Colors.class);
+
+        for (Card card : hand) {
+            Card.Colors c = card.getCardColor();
+            if (card.getCardNum() >= 13) continue; // If it's wild, don't count it as whatever it is
+            count.put(c, count.getOrDefault(c, 0) + 1);
+        }
+
+        // THIS MAKES TOTAL SENSE!!!!
+        return Collections.max(count.entrySet(), Map.Entry.comparingByValue()).getKey();
+    }
 
     /**
      * Adds a new card to the current hand.

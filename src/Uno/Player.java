@@ -5,9 +5,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class Player {
-    private Hand hand;
-    private String username;
+    private final Hand hand;
+    private final String username;
     private final boolean bot;
+    private Card latestPlayedCard;
+    private boolean lastActionWasDraw;
 
     public Player(String username, boolean isBot) {
         this.bot = isBot;
@@ -41,8 +43,12 @@ public class Player {
         if (cardHandIndex >= 0 && cardHandIndex < hand.numCardsInHand()) {
             Card card = hand.getCardFromHand(cardHandIndex, true);
             Game.discardPile.addCardToPile(card);
+            latestPlayedCard = card;
+            lastActionWasDraw = false;
         } else if (cardHandIndex == hand.numCardsInHand() + 1) {
             hand.addCard(Game.drawPile.getTopCard(true));
+            latestPlayedCard = null;
+            lastActionWasDraw = true;
         } else {
             // Worry about reprompting later
             throw new Error("You typed an invalid value!" + cardHandIndex);
@@ -62,12 +68,13 @@ public class Player {
 
         if (bestScore == 0) {
             hand.addCard(Game.drawPile.getTopCard(true));
+            lastActionWasDraw = true;
+            latestPlayedCard = null;
             return;
         }
-        System.out.println(hand.getCardFromHand(scores.indexOf(bestScore), false).getColoredCardText(true));
 
         if (hand.getCardFromHand(scores.indexOf(bestScore), false).getCardNum() >= 13) {
-
+            hand.getCardFromHand(scores.indexOf(bestScore), false).setWildColor(hand.getColorThatTheMostCardsUse());
         }
 
         action(scores.indexOf(bestScore));
@@ -99,5 +106,10 @@ public class Player {
             scores.set(index, score);
         }
         return scores;
+    }
+
+    public String getLatestPlayedCard() {
+        if (lastActionWasDraw) return "Drew a card";
+        return (latestPlayedCard != null) ? latestPlayedCard.getColoredCardText(true) : "No card played yet";
     }
 }
