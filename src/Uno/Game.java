@@ -56,7 +56,10 @@ public class Game {
     }
 
     public static void addCardsToNextPlayer(boolean fourCards) {
-
+        Hand nextPlayersHand = players[getNextPlayer()].getHand();
+        for (int i = 0; i < ((fourCards) ? 4 : 2); i++) {
+            nextPlayersHand.addCard(Game.drawPile.getTopCard(true));
+        }
     }
 
     public static int getCurrentPlayer() {
@@ -64,8 +67,12 @@ public class Game {
     }
 
     public static void advancePlayer() {
-        currentPlayer += flowDirection + players.length; // advance the player pointer and will guarantee it is not less than 0
-        currentPlayer %= players.length; // make it stay within the upper bounds
+        currentPlayer = getNextPlayer();
+    }
+
+    private static int getNextPlayer() {
+        int player = currentPlayer + flowDirection + players.length; // advance the player pointer and will guarantee it is not less than 0
+        return (player % players.length); // make it stay within the upper bounds
     }
 
     public static void skipPlayer() {

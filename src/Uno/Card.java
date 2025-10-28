@@ -29,7 +29,7 @@ public class Card {
      * - 12 represents "Skip"
      * - 13 represents "Wild"
      * - 14 represents "Wild Draw 4"
-     *
+     * <p>
      * This value is immutable once the card has been created.
      */
     private final int cardNum;

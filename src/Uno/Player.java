@@ -112,7 +112,12 @@ public class Player {
 
     private void specialCardAction(Card card) {
         int cardNum = card.getCardNum();
-
+        switch (cardNum) {
+            case 10 -> Game.addCardsToNextPlayer(false);
+            case 11 -> Game.flipFlowDirection();
+            case 12 -> Game.skipPlayer();
+            case 14 -> Game.addCardsToNextPlayer(true);
+        }
     }
 
     // --------------------------- BOT CODE -------------------------------------------
