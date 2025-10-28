@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="uno-game-lab:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/uno_game_lab_jar</output-path>
+    <root id="archive" name="uno-game-lab.jar">
+      <element id="module-output" name="uno-game-lab" />
+    </root>
+  </artifact>
+</component>
