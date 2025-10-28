@@ -53,6 +53,10 @@ public class Game {
         flowDirection = (flowDirection == 1) ? -1 : 1;
     }
 
+    public static void addCardsToNextPlayer(boolean fourCards) {
+
+    }
+
     /**
      * Prints a summary of all bot players' game statuses.
      * <p>

@@ -80,7 +80,7 @@ public class Player {
      * Performs an action in the game based on the provided card index.
      * The action varies depending on whether the card index corresponds to
      * a card in the player's hand, an intent to draw a card, or an invalid input.
-     *
+     * <p>
      * If the card index is valid and within the range of the player's hand, the
      * corresponding card is played from the hand and added to the discard pile.
      * If the index corresponds to drawing a card, a card is taken from the draw pile
@@ -97,6 +97,7 @@ public class Player {
         if (cardHandIndex >= 0 && cardHandIndex < hand.numCardsInHand()) {
             Card card = hand.getCardFromHand(cardHandIndex, true);
             Game.discardPile.addCardToPile(card);
+            specialCardAction(card);
             latestPlayedCard = card;
             lastActionWasDraw = false;
         } else if (cardHandIndex == hand.numCardsInHand() + 1) {
@@ -107,6 +108,11 @@ public class Player {
             // Worry about reprompting later
             throw new Error("You typed an invalid value!" + cardHandIndex);
         }
+    }
+
+    private void specialCardAction(Card card) {
+        int cardNum = card.getCardNum();
+
     }
 
     // --------------------------- BOT CODE -------------------------------------------
