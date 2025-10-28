@@ -6,6 +6,8 @@ public class Game {
 
     public static Player[] players;
 
+    private static int currentPlayer = 0;
+
     private static int flowDirection = 1;
 
     /**
@@ -55,6 +57,20 @@ public class Game {
 
     public static void addCardsToNextPlayer(boolean fourCards) {
 
+    }
+
+    public static int getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public static void advancePlayer() {
+        currentPlayer += flowDirection + players.length; // advance the player pointer and will guarantee it is not less than 0
+        currentPlayer %= players.length; // make it stay within the upper bounds
+    }
+
+    public static void skipPlayer() {
+        currentPlayer += (flowDirection * 2) + (players.length * 2); // advance the player pointer twice and guarantee it is not less than 0
+        currentPlayer %= players.length; // make it stay within the upper bounds
     }
 
     /**
