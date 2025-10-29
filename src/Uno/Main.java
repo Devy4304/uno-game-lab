@@ -11,14 +11,8 @@ public class Main {
                 int currentPlayer = Game.getCurrentPlayer();
                 Game.players[currentPlayer].makeBotMove();
                 Utility.Console.writeTUIBox(Game.players[currentPlayer].getUsername() + " played a " + Game.players[currentPlayer].getLatestPlayedCard() +
-                        "They now have " + Game.players[currentPlayer].getHand().numCardsInHand() + " card(s) left in their hand.",
+                        ".;They now have " + Game.players[currentPlayer].getHand().numCardsInHand() + " card(s) left.",
                         false, false);
-                // Utility.Console.writeTUIBox(
-                //         "Current Player: " + Game.players[Game.getCurrentPlayer()].getUsername() + ";" +
-                //                 "Current Card: " + Game.discardPile.getTopCard(false).getColoredCardText(true) + ";" +
-                //                 "Number of Cards: " + Game.players[Game.getCurrentPlayer()].getHand().numCardsInHand() + ";" +
-                //                 Game.players[Game.getCurrentPlayer()].getHand().toString(),
-                //         false, false);
             }
         }
     }

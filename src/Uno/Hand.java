@@ -9,7 +9,6 @@ import java.util.*;
  */
 public class Hand {
     private final List<Card> hand = new ArrayList<>();
-    // private int latestPlayedCardIndex;
 
     /**
      * Constructs a new Hand object and initializes it with a default set of cards.
@@ -57,22 +56,20 @@ public class Hand {
     }
 
     /**
-     * Retrieves a card from the hand at the specified index.
-     * If the removeAfterGet parameter is true, the card will also
-     * be removed from the hand.
+     * Retrieves a card from the hand at the specified index. Optionally, the card can be
+     * removed from the hand after it is retrieved.
      *
-     * @param index the position of the card to retrieve from the hand
-     * @param removeAfterGet a boolean flag indicating whether the card should
-     *                       be removed from the hand after retrieval
-     * @return the card at the specified index
-     * @throws Error if the hand is empty when trying to retrieve a card
+     * @param index the index of the card to retrieve from the hand
+     * @param removeAfterGet a flag indicating whether the card should be removed
+     *                       from the hand after retrieval
+     * @return the card located at the specified index in the hand
+     * @throws Error if the hand is empty
      */
     public Card getCardFromHand(int index, boolean removeAfterGet) {
         if (!hand.isEmpty()) {
             Card card = hand.get(index);
             if (removeAfterGet) {
                 hand.remove(index);
-                // latestPlayedCardIndex = index;
             };
             return card;
         } else {
@@ -81,12 +78,8 @@ public class Hand {
         }
     }
 
-    // public void clearLatestIndex() {
-    //     latestPlayedCardIndex = 0;
-    // }
-
     /**
-     * Determines the color that is most frequently used by the cards in the hand.
+     * Determines the color most frequently used by the cards in the hand.
      * Wild cards (cards with a number greater than or equal to 13) are ignored when counting.
      *
      * @return the color that is used by the highest number of cards in the hand
@@ -134,20 +127,18 @@ public class Hand {
     }
 
     /**
-     * Generates a string representation of the hand, indicating which cards can
-     * be played and the available actions. Playable cards are marked with their
-     * index (starting from 1), and unplayable cards are marked with a placeholder.
-     * If no cards are playable, an option to draw a card from the draw pile is added.
+     * Returns a string representation of the current hand, indicating the playable cards
+     * with their respective indices and marking unplayable cards accordingly. If no cards
+     * are playable, an option to take a card from the draw pile is included.
      *
-     * @return a string representing the current state of the hand, including
-     *         playable and unplayable cards along with possible actions.
+     * @return a string describing the current hand, highlighting playable cards and including
+     *         an option to draw a card if none are playable.
      */
     public String toString() {
         StringBuilder out = new StringBuilder();
         List<Integer> playableCards = getPlayableCards();
         int i = 0;
         for (Card card : hand) {
-            // if (i == latestPlayedCardIndex) out.append(Utility.Console.Colors.GREEN);
             if (playableCards.contains(i)) out.append(i + 1).append(") ").append(Utility.Console.Colors.RESET).append(card).append(";");
             else out.append("-) ").append(card).append(";");
             i++;

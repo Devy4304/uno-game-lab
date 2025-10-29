@@ -10,13 +10,33 @@ public class Card {
     /**
      * The Colors enum represents the possible colors of a card in a card game.
      * It includes the primary colors used to categorize cards.
-     * This enum is primarily utilized to define and handle the colors of game cards,
+     * This enum is primarily used to define and handle the colors of game cards,
      * offering a standardized set of values for color comparison and management.
      */
     public enum Colors {
+        /**
+         * Represents the RED color in the Colors enum.
+         * This color is used to categorize game cards in Uno,
+         * serving as one of the four primary color options.
+         */
         RED,
+        /**
+         * Represents the YELLOW color in the Colors enum.
+         * This color is used to categorize game cards,
+         * serving as one of the four primary color options in the game.
+         */
         YELLOW,
+        /**
+         * Represents the GREEN color in the Colors enum.
+         * This color is used to categorize game cards,
+         * serving as one of the four primary color options in the game.
+         */
         GREEN,
+        /**
+         * Represents the BLUE color in the Colors enum.
+         * This color is used to categorize game cards,
+         * serving as one of the four primary color options in the game.
+         */
         BLUE
     }
 

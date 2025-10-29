@@ -77,32 +77,31 @@ public class Player {
     }
 
     /**
-     * Performs an action in the game based on the provided card index.
-     * The action varies depending on whether the card index corresponds to
-     * a card in the player's hand, an intent to draw a card, or an invalid input.
-     * <p>
-     * If the card index is valid and within the range of the player's hand, the
-     * corresponding card is played from the hand and added to the discard pile.
-     * If the index corresponds to drawing a card, a card is taken from the draw pile
-     * and added to the player's hand. Invalid indices throw an error.
+     * Executes an action for the player based on the card index provided.
+     * The method determines if the player is playing a card, drawing a card,
+     * or providing an invalid input. If the player plays a card, it is moved
+     * to the discard pile, and any special actions related to the card are executed.
+     * If the player draws a card, it is added to their hand. The game state
+     * advances to the next player's turn afterward.
      *
-     * @param cardHandIndex the index of the card the player wants to play from their hand,
-     *                      or the index representing the action to draw a card
-     *                      (equal to the number of cards in the hand plus one).
-     *                      Indices outside this range are considered invalid.
-     *
-     * @throws Error if the cardHandIndex is invalid.
+     * @param cardHandIndex the index of the card in the player's hand to play or
+     *                      a special index for drawing a card. A valid index ranges
+     *                      from 0 to one less than the total number of cards in hand
+     *                      for playing a card, or it can be the size of the hand for drawing.
+     * @throws Error if the provided index is invalid (e.g., out of bounds).
      */
     public void action(int cardHandIndex) {
         if (cardHandIndex >= 0 && cardHandIndex < hand.numCardsInHand()) {
             Card card = hand.getCardFromHand(cardHandIndex, true);
+            if (card.getCardNum() >= 13) {
+                card.setWildColor(Utility.Console.askForWildColor());
+            }
             Game.discardPile.addCardToPile(card);
             specialCardAction(card);
             latestPlayedCard = card;
             lastActionWasDraw = false;
         } else if (cardHandIndex == hand.numCardsInHand() + 1) {
             hand.addCard(Game.drawPile.getTopCard(true));
-            hand.clearLatestIndex();
             latestPlayedCard = null;
             lastActionWasDraw = true;
         } else {
@@ -111,9 +110,37 @@ public class Player {
         Game.advancePlayer();
     }
 
+    /**
+     * Prompts the player to take an action during their turn by displaying the
+     * current game state using a text-based user interface and handling their input.
+     * <p>
+     * The displayed state includes:
+     * - The current top card on the discard pile.
+     * - The number of cards in the player's hand.
+     * - A detailed list of cards in the player's hand.
+     * <p>
+     * The method then waits for the player to input their choice, which can be either:
+     * - Playing one of the cards from their hand if it is valid and playable.
+     * - Drawing a card if none of their cards are playable or they choose to do so.
+     * <p>
+     * Once the input is received, it validates the choice and performs the corresponding
+     * action by invoking the `action(int cardHandIndex)` method. Invalid inputs
+     * are handled internally to ensure proper game flow.
+     * <p>
+     * Game state updates based on the action taken:
+     * - If a card is played, it is moved to the discard pile, and any related
+     *   special actions are executed.
+     * - If a card is drawn, it is added to the player's hand.
+     * <p>
+     * This method ensures that the game state progresses to the next player's turn
+     * after the current player completes their action.
+     * <p>
+     * The numerical input is validated against the range of valid options,
+     * which includes indices of playable cards and a special index for drawing a card.
+     */
     public void queryUserAction() {
         Utility.Console.writeTUIBox(
-                "Current Card: " + Game.discardPile.getTopCard(false) + ";" +
+                "Current Card: " + Game.discardPile.getTopCard(false).getColoredCardText(true) + ";" +
                         "Number Cards in Hand: " + hand.numCardsInHand() + ";" +
                         "-".repeat(Utility.Console.getBoxWidth() + 2) + ";" +
                         hand,
@@ -121,6 +148,13 @@ public class Player {
         action(Utility.Console.getNumericalInput(1, hand.numCardsInHand() + 1, hand.getPlayableCards(), -1) - 1);
     }
 
+    /**
+     * Executes a special action based on the provided card.
+     * The action is determined by the card number, which corresponds to specific game behaviors.
+     *
+     * @param card the card whose special action will be executed, determined by its card number
+     *             (e.g., 10 for adding cards to the next player, 11 for flipping the game's direction, etc.)
+     */
     private void specialCardAction(Card card) {
         int cardNum = card.getCardNum();
         switch (cardNum) {
@@ -207,7 +241,7 @@ public class Player {
      * the current card on the deck.
      *
      * @param playableCards a list of integers representing the indices of cards in the player's
-     *                      hand that are playable according to the game rules.
+     *                      hand that are playable, according to the game rules.
      * @param currentCardOnDeck the card currently on the top of the deck, used to compare
      *                          properties and calculate scores.
      * @return a list of integers representing the calculated scores for each card in the

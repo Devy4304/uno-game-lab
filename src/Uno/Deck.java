@@ -72,7 +72,7 @@ public class Deck {
      * is a valid starting card. Specifically, it repeatedly checks the top card
      * and removes it from the deck if it has a card number greater than or equal to 13.
      * This is typically used to eliminate invalid starting cards like "Wild"
-     * or "Wild Draw 4" which may not be suitable as the initial card in certain card games.
+     * or "Wild Draw 4," which may not be suitable as the initial card in certain card games.
      */
     public void prepDiscardPile() {
         while (getTopCard(false).getCardNum() >= 13) {
