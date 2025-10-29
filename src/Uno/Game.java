@@ -10,6 +10,8 @@ public class Game {
 
     private static int flowDirection = 1;
 
+    private static boolean isGameOver = false;
+
     /**
      * Initializes the game by setting up the draw pile, discard pile, and players.
      * The draw pile is reset, a starting card is placed on the discard pile, and
@@ -78,6 +80,18 @@ public class Game {
     public static void skipPlayer() {
         currentPlayer += (flowDirection * 2) + (players.length * 2); // advance the player pointer twice and guarantee it is not less than 0
         currentPlayer %= players.length; // make it stay within the upper bounds
+    }
+
+    public static boolean isPlayerTurn() {
+        return (currentPlayer == 0);
+    }
+
+    public static void endGame() {
+        isGameOver = true;
+    }
+
+    public static boolean isGameOver() {
+        return isGameOver;
     }
 
     /**

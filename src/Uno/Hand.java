@@ -9,6 +9,7 @@ import java.util.*;
  */
 public class Hand {
     private final List<Card> hand = new ArrayList<>();
+    // private int latestPlayedCardIndex;
 
     /**
      * Constructs a new Hand object and initializes it with a default set of cards.
@@ -69,13 +70,20 @@ public class Hand {
     public Card getCardFromHand(int index, boolean removeAfterGet) {
         if (!hand.isEmpty()) {
             Card card = hand.get(index);
-            if (removeAfterGet) hand.remove(index);
+            if (removeAfterGet) {
+                hand.remove(index);
+                // latestPlayedCardIndex = index;
+            };
             return card;
         } else {
             // Actually do something here
             throw new Error("Something terrible has occurred. (Tried to play from an empty hand, which should have been a win)");
         }
     }
+
+    // public void clearLatestIndex() {
+    //     latestPlayedCardIndex = 0;
+    // }
 
     /**
      * Determines the color that is most frequently used by the cards in the hand.
@@ -138,8 +146,9 @@ public class Hand {
         StringBuilder out = new StringBuilder();
         List<Integer> playableCards = getPlayableCards();
         int i = 0;
-        for (Card card: hand) {
-            if (playableCards.contains(i)) out.append(i + 1).append(") ").append(card).append(";");
+        for (Card card : hand) {
+            // if (i == latestPlayedCardIndex) out.append(Utility.Console.Colors.GREEN);
+            if (playableCards.contains(i)) out.append(i + 1).append(") ").append(Utility.Console.Colors.RESET).append(card).append(";");
             else out.append("-) ").append(card).append(";");
             i++;
         }

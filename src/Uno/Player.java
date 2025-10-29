@@ -102,12 +102,23 @@ public class Player {
             lastActionWasDraw = false;
         } else if (cardHandIndex == hand.numCardsInHand() + 1) {
             hand.addCard(Game.drawPile.getTopCard(true));
+            hand.clearLatestIndex();
             latestPlayedCard = null;
             lastActionWasDraw = true;
         } else {
-            // Worry about reprompting later
             throw new Error("You typed an invalid value!" + cardHandIndex);
         }
+        Game.advancePlayer();
+    }
+
+    public void queryUserAction() {
+        Utility.Console.writeTUIBox(
+                "Current Card: " + Game.discardPile.getTopCard(false) + ";" +
+                        "Number Cards in Hand: " + hand.numCardsInHand() + ";" +
+                        "-".repeat(Utility.Console.getBoxWidth() + 2) + ";" +
+                        hand,
+                false, false);
+        action(Utility.Console.getNumericalInput(1, hand.numCardsInHand() + 1, hand.getPlayableCards(), -1) - 1);
     }
 
     private void specialCardAction(Card card) {
@@ -147,6 +158,7 @@ public class Player {
      * - Updates the `lastActionWasDraw` field to reflect whether the bot's last action was drawing a card.
      */
     public void makeBotMove() {
+        if (!bot) return;
         List<Integer> scores = calculateCardScores();
 
         int bestScore = 0;

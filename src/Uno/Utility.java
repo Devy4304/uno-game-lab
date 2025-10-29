@@ -1,5 +1,6 @@
 package Uno;
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -134,6 +135,19 @@ public class Utility {
                 input = scanner.nextInt();
             } while (input < min || input > max);
             return input;
+        }
+
+        public static int getNumericalInput(int min, int max, List<Integer> validValues, int offset) {
+            int input = 0;
+            do {
+                System.out.print("  => ");
+                input = scanner.nextInt();
+            } while (input < min || input > max || !validValues.contains(input + offset));
+            return input;
+        }
+
+        public static int getNumericalInput(int min, int max, List<Integer> validValues) {
+            return  getNumericalInput(min, max, validValues, 0);
         }
 
         /**
