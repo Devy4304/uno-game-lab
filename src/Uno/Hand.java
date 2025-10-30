@@ -95,7 +95,11 @@ public class Hand {
         }
 
         // THIS MAKES TOTAL SENSE!!!!
-        return Collections.max(count.entrySet(), Map.Entry.comparingByValue()).getKey();
+        if (count.isEmpty()) {
+            return Card.Colors.RED;
+        } else {
+            return Collections.max(count.entrySet(), Map.Entry.comparingByValue()).getKey();
+        }
     }
 
     /**

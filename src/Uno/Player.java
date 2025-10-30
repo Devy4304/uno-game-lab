@@ -91,16 +91,19 @@ public class Player {
      * @throws Error if the provided index is invalid (e.g., out of bounds).
      */
     public void action(int cardHandIndex) {
-        if (cardHandIndex >= 0 && cardHandIndex < hand.numCardsInHand()) {
+        if (cardHandIndex >= 0 && cardHandIndex < hand.numCardsInHand() ) {
             Card card = hand.getCardFromHand(cardHandIndex, true);
-            if (card.getCardNum() >= 13) {
+            if (card.getCardNum() >= 13 && !bot) {
                 card.setWildColor(Utility.Console.askForWildColor());
             }
             Game.discardPile.addCardToPile(card);
             specialCardAction(card);
             latestPlayedCard = card;
             lastActionWasDraw = false;
-        } else if (cardHandIndex == hand.numCardsInHand() + 1) {
+            if (hand.numCardsInHand() == 0) {
+                Game.endGame();
+            }
+        } else if (cardHandIndex == hand.numCardsInHand()) {
             hand.addCard(Game.drawPile.getTopCard(true));
             latestPlayedCard = null;
             lastActionWasDraw = true;
@@ -139,13 +142,25 @@ public class Player {
      * which includes indices of playable cards and a special index for drawing a card.
      */
     public void queryUserAction() {
+        int numCards = hand.numCardsInHand();
+
         Utility.Console.writeTUIBox(
                 "Current Card: " + Game.discardPile.getTopCard(false).getColoredCardText(true) + ";" +
-                        "Number Cards in Hand: " + hand.numCardsInHand() + ";" +
+                        "Number Cards in Hand: " + numCards + ";" +
                         "-".repeat(Utility.Console.getBoxWidth() + 2) + ";" +
                         hand,
                 false, false);
-        action(Utility.Console.getNumericalInput(1, hand.numCardsInHand() + 1, hand.getPlayableCards(), -1) - 1);
+        action(Utility.Console.getNumericalInput(1, numCards + 1, hand.getPlayableCards(), -1, (hand.getPlayableCards().isEmpty())) - 1);
+        numCards = hand.numCardsInHand();
+        if (numCards == 1) {
+            Utility.Console.writeTUIBox("Is there anything you would like to say?", false, false);
+            if (Utility.Console.getStringInput().toLowerCase().contains("uno")) {
+                Utility.Console.writeTUIBox("Good Job :)", false, false);
+            } else {
+                Utility.Console.writeTUIBox("You didn't say 'Uno'!; Take a card :(", false, false);
+                action(numCards);
+            }
+        }
     }
 
     /**

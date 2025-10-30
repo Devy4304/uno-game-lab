@@ -124,10 +124,12 @@ public class Utility {
          * @return the valid numerical input provided by the user
          */
         public static int getNumericalInput(int min, int max) {
+            System.out.println();
             int input = 0;
             do {
                 System.out.print("  => ");
                 input = scanner.nextInt();
+                System.out.println();
             } while (input < min || input > max);
             return input;
         }
@@ -143,12 +145,14 @@ public class Utility {
          * @param offset     an integer value added to the user's input before validating against validValues
          * @return the valid numerical input provided by the user
          */
-        public static int getNumericalInput(int min, int max, List<Integer> validValues, int offset) {
+        public static int getNumericalInput(int min, int max, List<Integer> validValues, int offset, boolean includeDraw) {
             int input = 0;
+            System.out.println();
             do {
                 System.out.print("  => ");
                 input = scanner.nextInt();
-            } while (input < min || input > max || !validValues.contains(input + offset));
+                System.out.println();
+            } while (input < min || input > max || !(validValues.contains(input + offset) || (includeDraw && (input == max))));
             return input;
         }
 
@@ -160,8 +164,8 @@ public class Utility {
          * @param validValues a list of valid integer values that the input must match; can be null or empty for no additional restrictions
          * @return the numerical input provided by the user that satisfies the specified constraints
          */
-        public static int getNumericalInput(int min, int max, List<Integer> validValues) {
-            return  getNumericalInput(min, max, validValues, 0);
+        public static int getNumericalInput(int min, int max, List<Integer> validValues, boolean includeDraw) {
+            return getNumericalInput(min, max, validValues, 0, includeDraw);
         }
 
         /**

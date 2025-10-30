@@ -48,6 +48,8 @@ public class Game {
 
     private static boolean isGameOver = false;
 
+    private static int winningPlayer;
+
     /**
      * Initializes the game by setting up the draw pile, discard pile, and players.
      * The draw pile is reset, a starting card is placed on the discard pile, and
@@ -56,7 +58,7 @@ public class Game {
      *
      * @param numBots the number of computer-controlled players to include in the game
      */
-    public static void initGame(int numBots) {
+    public static void initGame(int numBots, String playerUsername) {
         drawPile.resetDeck();
 
         discardPile.addCardToPile(drawPile.getTopCard(true));
@@ -64,7 +66,7 @@ public class Game {
 
         players = new Player[numBots + 1];
         // players[0] = new Player(Utility.Console.askForUsername());
-        players[0] = new Player("e");
+        players[0] = new Player(playerUsername);
         for (int i = 1; i <= numBots; i++) {
             players[i] = new Player("Bot " + i, true);
         }
@@ -151,7 +153,7 @@ public class Game {
      * it remains within the range of valid player indices.
      */
     public static void skipPlayer() {
-        currentPlayer += (flowDirection * 2) + (players.length * 2); // advance the player pointer twice and guarantee it is not less than 0
+        currentPlayer += (flowDirection) + (players.length); // advance the player pointer twice and guarantee it is not less than 0
         currentPlayer %= players.length; // make it stay within the upper bounds
     }
 
@@ -165,15 +167,13 @@ public class Game {
         return (currentPlayer == 0);
     }
 
-    /**
-     * Ends the game by setting the game state to over.
-     *
-     * This method updates the `isGameOver` field to true, signaling
-     * that the game has concluded. Once called, no further gameplay
-     * actions should occur until the game is restarted or reinitialized.
-     */
     public static void endGame() {
         isGameOver = true;
+        winningPlayer = currentPlayer;
+    }
+
+    public static int getWinningPlayer() {
+        return winningPlayer;
     }
 
     /**
