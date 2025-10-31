@@ -70,7 +70,7 @@ public class Hand {
             Card card = hand.get(index);
             if (removeAfterGet) {
                 hand.remove(index);
-            };
+            }
             return card;
         } else {
             // Actually do something here

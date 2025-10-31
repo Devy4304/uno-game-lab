@@ -124,7 +124,7 @@ public class Player {
      * <p>
      * The method then waits for the player to input their choice, which can be either:
      * - Playing one of the cards from their hand if it is valid and playable.
-     * - Drawing a card if none of their cards are playable or they choose to do so.
+     * - Drawing a card if none of their cards are playable, or they choose to do so.
      * <p>
      * Once the input is received, it validates the choice and performs the corresponding
      * action by invoking the `action(int cardHandIndex)` method. Invalid inputs

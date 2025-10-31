@@ -12,7 +12,7 @@ public class Game {
      * The draw pile is a shared resource for all players and plays a critical role in
      * maintaining the flow of the game.
      */
-    public static Deck drawPile = new Deck(false);
+    public static final Deck drawPile = new Deck(false);
 
     /**
      * Represents the discard pile in the card game.
@@ -25,7 +25,7 @@ public class Game {
      * players, with the topmost card on this pile determining certain game
      * rules or moves.
      */
-    public static Deck discardPile = new Deck(true);
+    public static final Deck discardPile = new Deck(true);
 
     /**
      * An array representing all the players in the game.

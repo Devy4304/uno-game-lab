@@ -1,7 +1,7 @@
 ## Uno Game Lab
-A simple ***work in progress*** Uno game in Java played through the terminal (ANSI color reccomended for best experience).
+A simple ***work in progress*** Uno game in Java played through the terminal (ANSI color recommended for best experience).
 
-The rules may perhaps not be perfect, but it should at leat be good enough for now.
+The rules may not be perfect, but it should at leat be good enough for now.
 
 I will update the README.md as the project draws to a close.
 

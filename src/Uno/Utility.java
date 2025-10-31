@@ -105,17 +105,6 @@ public class Utility {
         }
 
         /**
-         * Clears the console window by printing 50 new lines.
-         * This method simulates clearing the console output by
-         * iterating a fixed number of times and printing empty lines.
-         */
-        public static void clear() {
-            for (int i = 0; i < 50; i++) {
-                System.out.println();
-            }
-        }
-
-        /**
          * Prompts the user to input a numerical value within the specified range.
          * Continues to prompt until a valid input is provided.
          *
@@ -125,7 +114,7 @@ public class Utility {
          */
         public static int getNumericalInput(int min, int max) {
             System.out.println();
-            int input = 0;
+            int input;
             do {
                 System.out.print("  => ");
                 input = scanner.nextInt();
@@ -134,19 +123,8 @@ public class Utility {
             return input;
         }
 
-        /**
-         * Prompts the user to input a numerical value within the specified range and checks
-         * its validity against a list of acceptable values with an applied offset. The user
-         * will be repeatedly prompted until a valid input is provided.
-         *
-         * @param min        the minimum acceptable value (inclusive)
-         * @param max        the maximum acceptable value (inclusive)
-         * @param validValues a list of integers representing valid values for input (after applying the offset)
-         * @param offset     an integer value added to the user's input before validating against validValues
-         * @return the valid numerical input provided by the user
-         */
         public static int getNumericalInput(int min, int max, List<Integer> validValues, int offset, boolean includeDraw) {
-            int input = 0;
+            int input;
             System.out.println();
             do {
                 System.out.print("  => ");
@@ -156,14 +134,6 @@ public class Utility {
             return input;
         }
 
-        /**
-         * Prompts the user to input a numerical value within a specified range and optionally checks against a list of valid values.
-         *
-         * @param min the minimum allowable value for the input (inclusive)
-         * @param max the maximum allowable value for the input (inclusive)
-         * @param validValues a list of valid integer values that the input must match; can be null or empty for no additional restrictions
-         * @return the numerical input provided by the user that satisfies the specified constraints
-         */
         public static int getNumericalInput(int min, int max, List<Integer> validValues, boolean includeDraw) {
             return getNumericalInput(min, max, validValues, 0, includeDraw);
         }
@@ -244,8 +214,8 @@ public class Utility {
          */
         public static void writeTUIBox(String[] innerTextSplit, boolean isBoxBelow, boolean isBoxAbove) {
             // Make the top bar, with or without connectors on top
-            if (!isBoxAbove) System.out.println("╔" + repeatString("═", boxWidth - 2) + "╗");
-            else System.out.println("╠" + repeatString("═", boxWidth - 2) + "╣");
+            if (!isBoxAbove) System.out.println("┌" + repeatString("─", boxWidth - 2) + "┐");
+            else System.out.println("├" + repeatString("─", boxWidth - 2) + "┤");
 
 
             for (String text : innerTextSplit) {
@@ -259,10 +229,10 @@ public class Utility {
                 }
                 String croppedText = getCroppedText(text);
                 // Print it out!
-                System.out.println("║ " + croppedText + Colors.RESET + repeatString(" ", boxWidth - 4 - filteredText.length()) + " ║");
+                System.out.println("│ " + croppedText + Colors.RESET + repeatString(" ", boxWidth - 4 - filteredText.length()) + " │");
             }
             // Make the bottom bar, with or without connectors on the bottom
-            if (!isBoxBelow) System.out.println("╚" + repeatString("═", boxWidth - 2) + "╝");
+            if (!isBoxBelow) System.out.println("└" + repeatString("─", boxWidth - 2) + "┘");
         }
 
         /**
@@ -320,7 +290,7 @@ public class Utility {
                         continue; // Finish this loop cycle early
                     }
                 }
-                croppedText.append(text.charAt(i)); // Append the letter if it's not a ANSI escape code
+                croppedText.append(text.charAt(i)); // Append the letter if it's not an ANSI escape code
                 currentLength++; // Increment currentLength
                 i++; // Increment Index
             }
