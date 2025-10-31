@@ -84,18 +84,6 @@ public class Utility {
         }
 
         /**
-         * Determines whether the current console environment supports ANSI escape codes.
-         * This method relies on an internal class-level flag that tracks if ANSI codes
-         * can be displayed in the terminal. The flag is updated based on user confirmation
-         * during an initial check performed by the `checkForANSI` method.
-         *
-         * @return true if the console supports ANSI escape codes; false otherwise
-         */
-        public static boolean supportsANSICodes() {
-            return canDisplayANSICodes;
-        }
-
-        /**
          * Retrieves the width of the box used for console-based text formatting or layout.
          *
          * @return the width of the box as an integer
@@ -134,10 +122,6 @@ public class Utility {
             return input;
         }
 
-        public static int getNumericalInput(int min, int max, List<Integer> validValues, boolean includeDraw) {
-            return getNumericalInput(min, max, validValues, 0, includeDraw);
-        }
-
         /**
          * Prompts the user for string input via the console and returns the entered value.
          * The method ensures that any residual input in the scanner's buffer is cleared
@@ -152,17 +136,6 @@ public class Utility {
             String in = scanner.nextLine();
             System.out.println();
             return in;
-        }
-
-        /**
-         * Prompts the user to enter their username via the console.
-         * Displays a formatted message asking for the username and waits for user input.
-         *
-         * @return the username entered by the user as a string
-         */
-        public static String askForUsername() {
-            writeTUIBox("What is your username?", false, false);
-            return getStringInput();
         }
 
         /**

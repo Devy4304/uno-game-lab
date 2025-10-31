@@ -73,19 +73,6 @@ public class Game {
     }
 
     /**
-     * Retrieves the current flow direction of the game.
-     * The flow direction determines the order in which players take turns.
-     * A positive value (e.g., 1) indicates clockwise flow, while a negative value (e.g., -1)
-     * denotes counterclockwise flow.
-     *
-     * @return the current flow direction as an integer, where 1 represents clockwise,
-     *         and -1 represents counterclockwise.
-     */
-    public static int getFlowDirection() {
-        return flowDirection;
-    }
-
-    /**
      * Reverses the current flow direction of the game.
      * The flow direction determines the order in which players take turns. A value of 1 represents
      * clockwise flow, while a value of -1 represents counterclockwise flow. This method toggles

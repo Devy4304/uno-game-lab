@@ -39,15 +39,6 @@ public class Player {
     }
 
     /**
-     * Determines if the player is a bot.
-     *
-     * @return true if the player is a bot, otherwise false.
-     */
-    public boolean isBot() {
-        return bot;
-    }
-
-    /**
      * Retrieves the username of the player.
      *
      * @return the username of the player as a string.
@@ -64,16 +55,6 @@ public class Player {
      */
     public Hand getHand() {
         return hand;
-    }
-
-    /**
-     * Determines if the player has won the game.
-     * A player is considered to have won if their hand contains no cards.
-     *
-     * @return true if the player has no cards in their hand, otherwise false.
-     */
-    public boolean isWin() {
-        return (hand.numCardsInHand() == 0);
     }
 
     /**
