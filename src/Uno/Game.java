@@ -57,6 +57,7 @@ public class Game {
      * computer-controlled players based on the specified number of bots.
      *
      * @param numBots the number of computer-controlled players to include in the game
+     * @param playerUsername a String representing the player's username
      */
     public static void initGame(int numBots, String playerUsername) {
         drawPile.resetDeck();
@@ -154,11 +155,25 @@ public class Game {
         return (currentPlayer == 0);
     }
 
+    /**
+     * Ends the game by marking the game state as over and assigning the current
+     * player as the winning player.
+     * <p>
+     * This method updates the `isGameOver` field to indicate that the game has concluded.
+     * It also assigns the current player's index to the `winningPlayer` field, designating
+     * them as the winner. This ensures that the game status and winner information
+     * are accurately recorded for later retrieval or display.
+     */
     public static void endGame() {
         isGameOver = true;
         winningPlayer = currentPlayer;
     }
 
+    /**
+     * Retrieves the index of the winning player in the game.
+     *
+     * @return the index of the winning player as an integer if the game is over; otherwise, an undefined or default value.
+     */
     public static int getWinningPlayer() {
         return winningPlayer;
     }

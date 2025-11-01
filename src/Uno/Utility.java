@@ -111,6 +111,19 @@ public class Utility {
             return input;
         }
 
+        /**
+         * Prompts the user to input a numerical value within a given range, ensuring that
+         * the input satisfies additional constraints such as being within a list of valid values,
+         * potentially adjusted by an offset, and optionally allowing a "draw" condition with the maximum value.
+         * Continues to prompt until a valid input is provided.
+         *
+         * @param min the minimum acceptable value (inclusive)
+         * @param max the maximum acceptable value (inclusive)
+         * @param validValues the list of valid values that the input (adjusted by the offset) must belong to
+         * @param offset a numerical adjustment to be added to the user's input for validation
+         * @param includeDraw a boolean specifying if the maximum value is allowed as a special option
+         * @return the valid numerical input provided by the user
+         */
         public static int getNumericalInput(int min, int max, List<Integer> validValues, int offset, boolean includeDraw) {
             int input;
             System.out.println();

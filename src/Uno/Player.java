@@ -273,7 +273,7 @@ public class Player {
      *         Returns "No card played yet" if no card has been played.
      */
     public String getLatestPlayedCard() {
-        if (lastActionWasDraw) return "Drew a card";
+        if (lastActionWasDraw) return "drew a card";
         return (latestPlayedCard != null) ? latestPlayedCard.getColoredCardText(true) : "No card played yet";
     }
 }
