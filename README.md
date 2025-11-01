@@ -10,8 +10,7 @@ I will update the README.md as the project draws to a close.
 - [x] Basic TUI Functionality (Colors and Boxes)
 - [x] Player and Basic Bot Functionality
 - [x] Game Logic
-- [ ] Game Ending Logic and such
+- [x] Game Ending Logic and such
 - [x] Main Game Loop
-- [ ] TUI Stuff (Main Menu possibly, and actually print useful stuff that is relevant to the game)
-- [ ] Maybe make an improved bot?? (Or a random one for fun)
-- [ ] Bug fixing
+- [x] TUI Stuff (Main Menu possibly, and actually print useful stuff that is relevant to the game)
+- [x] Bug fixing (hopefully bug free)
